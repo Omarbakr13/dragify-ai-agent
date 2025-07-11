@@ -119,8 +119,8 @@ Retrieves all processed webhook logs for dashboard display.
     "timestamp": "2024-01-15T10:30:00",
     "message": "Original message...",
     "extracted": {
-      "name": "John Doe",
-      "email": "john@example.com",
+      "name": "omar",
+      "email": "omar@example.com",
       "company": "Example Corp"
     },
     "save_status": "success"
