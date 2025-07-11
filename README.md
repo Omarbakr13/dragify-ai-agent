@@ -49,8 +49,12 @@ A complete AI Agent Template that demonstrates the ability to:
 
 3. **Set up environment variables:**
    ```bash
-   # Create .env file
-   echo "GROQ_API_KEY=your_groq_api_key_here" > .env
+   # Copy the example file
+   cp env.example .env
+   
+   # Edit .env file with your actual API key
+   # Get your Groq API key from: https://console.groq.com/
+   nano .env  # or use your preferred editor
    ```
 
 4. **Run the server:**
@@ -164,9 +168,22 @@ Return ONLY valid JSON in this exact format without any additional text:
 ## 🔧 Configuration
 
 ### Environment Variables
+
+**Local Development:**
 ```bash
-GROQ_API_KEY=your_groq_api_key_here
+# Copy the example file
+cp backend/env.example backend/.env
+
+# Edit with your actual API key
+GROQ_API_KEY=your_actual_groq_api_key_here
 ```
+
+**Production Deployment:**
+- **Render**: Set environment variables in the dashboard
+- **Heroku**: Use `heroku config:set GROQ_API_KEY=your_key`
+- **Vercel**: Set in project settings
+
+**⚠️ Security Note:** Never commit `.env` files to version control!
 
 ### Customization Options
 - **LLM Model**: Change in `services/agent.py` (currently Llama3-70b)
