@@ -178,8 +178,7 @@ frontend/
 
 ---
 
-## 📺 Demo Video Walkthrough
-🎥 **Demo Video:** [dragify assessment.mp4](./backend/dragify%20assessment.mp4)
+
 
 
 
