@@ -10,4 +10,5 @@ class WebhookService {
   }
 }
 
-export default new WebhookService(); 
+const webhookService = new WebhookService();
+export default webhookService; 
