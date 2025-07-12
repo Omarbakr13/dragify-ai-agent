@@ -199,8 +199,7 @@ frontend/
 ---
 
 ## 🌐 Deployment Links
-- **Frontend (Vercel):** [Add your Vercel link here]
-- **Backend (Render):** [Add your Render link here]
+- **Frontend (Vercel):** [https://dragify-ai-agent.vercel.app]
 
 ---
 

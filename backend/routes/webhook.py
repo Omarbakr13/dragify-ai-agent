@@ -7,7 +7,7 @@ from services.user_manager import user_manager
 from services.auth import get_current_user
 from database.mock_crm import save_to_crm, get_crm_stats
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Optional
 
@@ -16,6 +16,9 @@ security = HTTPBearer()
 
 # Store webhook logs in memory (in production, use a proper database)
 webhook_logs = []
+
+# Egypt timezone (UTC+2)
+EGYPT_TIMEZONE = timezone(timedelta(hours=2))
 
 @router.post("/")
 async def webhook_endpoint(payload: WebhookMessage):
@@ -50,7 +53,7 @@ async def webhook_endpoint(payload: WebhookMessage):
     # Create log entry with user/session info
     log_entry = WebhookLog(
         id=str(len(webhook_logs) + 1),
-        timestamp=datetime.now(),
+        timestamp=datetime.now(EGYPT_TIMEZONE),
         user_id=user_id,
         session_id=session_id,
         message=message,
@@ -95,8 +98,11 @@ async def get_logs(
     # Admin can see all logs, regular users only see their own
     if current_user["role"] == "admin":
         if user_id:
+            # If specific user requested, get their logs
             return user_manager.get_user_logs(user_id, limit)
-        return webhook_logs[-limit:]
+        else:
+            # Admin sees ALL logs from global webhook_logs (including Postman requests)
+            return webhook_logs[-limit:]
     else:
         # Regular users can only see their own logs
         # Use email as user_id since that's what frontend sends

@@ -33,7 +33,13 @@ const TriggerLog = ({ logs }) => {
               <tr key={index} className="trigger-log__tr">
                 <td className="trigger-log__td trigger-log__td--time">
                   <div className="trigger-log__time">
-                    {new Date(log.timestamp).toLocaleTimeString()}
+                    {new Date(log.timestamp).toLocaleTimeString('en-US', {
+                      timeZone: 'Africa/Cairo',
+                      hour12: false,
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      second: '2-digit'
+                    })}
                   </div>
                 </td>
                 <td className="trigger-log__td trigger-log__td--message">
