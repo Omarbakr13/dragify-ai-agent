@@ -1,17 +1,19 @@
 FROM python:3.11-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy only requirements first for better caching
+# Copy only requirements for caching
 COPY backend/requirements.txt ./
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copy the rest of the backend code
+# Copy the rest of the app
 COPY backend/ .
 
-# Expose the port (Railway will set $PORT)
+# Expose port
 EXPOSE 8000
 
-# Use $PORT if set, otherwise default to 8000
-ENTRYPOINT ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Default to port 8000 if $PORT not set
+ENV PORT=8000
+
+# Final correct CMD: no shell tricks
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
