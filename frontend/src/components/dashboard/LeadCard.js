@@ -30,7 +30,7 @@ const LeadCard = ({ log }) => {
           <span className="lead-card__detail-value">{extracted.email}</span>
         </div>
         <div className="lead-card__detail-row">
-          <span className="lead-card__detail-label">Company: </span>
+          <span className="lead-card__detail-label">Company:&nbsp;</span>
           <span className="lead-card__detail-value">{extracted.company}</span>
         </div>
       </div>

@@ -85,8 +85,10 @@
 
 .lead-card__detail-label {
   color: #6b7280;
-  width: 3rem;
+  min-width: 4.5rem;
+  width: auto;
   flex-shrink: 0;
+  display: inline-block;
 }
 
 .lead-card__detail-value {

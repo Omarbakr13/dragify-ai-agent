@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const TriggerLog = ({ logs }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState('');
+
+  const handleViewMessage = (message) => {
+    setSelectedMessage(message);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedMessage('');
+  };
+
   return (
     <div className="trigger-log">
       <div className="trigger-log__header">
@@ -24,8 +37,18 @@ const TriggerLog = ({ logs }) => {
                   </div>
                 </td>
                 <td className="trigger-log__td trigger-log__td--message">
-                  <div className="trigger-log__message">
-                    {log.message}
+                  <div className="trigger-log__message" style={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 120, display: 'inline-block' }}>
+                      {log.message}
+                    </span>
+                    <button
+                      className="trigger-log__view-btn"
+                      style={{ marginLeft: 8, background: 'none', border: 'none', color: '#2563eb', cursor: 'pointer', fontSize: 14, padding: '2px 8px', borderRadius: 4, textDecoration: 'underline', fontWeight: 500 }}
+                      title="View full message"
+                      onClick={() => handleViewMessage(log.message)}
+                    >
+                      See more
+                    </button>
                   </div>
                 </td>
                 <td className="trigger-log__td trigger-log__td--status">
@@ -38,6 +61,15 @@ const TriggerLog = ({ logs }) => {
           </tbody>
         </table>
       </div>
+      {modalOpen && (
+        <div className="trigger-log__modal-overlay" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }} onClick={closeModal}>
+          <div className="trigger-log__modal" style={{ background: 'white', borderRadius: 8, padding: 24, minWidth: 320, maxWidth: 500, boxShadow: '0 4px 24px rgba(0,0,0,0.12)', position: 'relative' }} onClick={e => e.stopPropagation()}>
+            <button onClick={closeModal} style={{ position: 'absolute', top: 8, right: 12, background: 'none', border: 'none', fontSize: 20, color: '#6b7280', cursor: 'pointer' }} title="Close">×</button>
+            <h4 style={{ margin: 0, marginBottom: 12, fontWeight: 600, color: '#23272F' }}>Full Message</h4>
+            <div style={{ color: '#374151', fontSize: 15, wordBreak: 'break-word' }}>{selectedMessage}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
