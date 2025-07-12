@@ -1,352 +1,208 @@
-# Dragify AI Agent - Engineering Assessment
+# Dragify AI Agent – Engineering Assessment
 
 ## 🧠 Project Overview
+A full-stack AI Agent Automation Platform that:
+- Reacts to trigger events (webhook)
+- Uses LLMs to extract structured data from unstructured messages
+- Takes action (saves to CRM with retry logic)
+- Monitors outcomes in a dynamic dashboard
+- Supports multi-user (admin/user) with JWT authentication
+- Allows dynamic business logic/config updates
 
-A complete AI Agent Template that demonstrates the ability to:
-- React to trigger events via webhook
-- Use LLMs to extract structured data from unstructured messages
-- Take action based on extracted data (save to CRM)
-- Monitor outcomes in a dynamic dashboard
-- **JWT Authentication** for secure API access
+---
 
-## 🏗 Architecture
-
+## 🏗️ Architecture
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │   Backend       │    │   Storage       │
-│   (React +      │◄──►│   (FastAPI +    │◄──►│   (JSON CRM)    │
-│   TailwindCSS)  │    │   Groq LLM +    │    │                 │
-└─────────────────┘    │   JWT Auth)     │    └─────────────────┘
-                       └─────────────────┘
+Frontend (React + TailwindCSS)  <->  Backend (FastAPI + JWT + LLM)  <->  Mock CRM (JSON)
 ```
+- **Frontend:** React, TailwindCSS, Vercel deployment
+- **Backend:** FastAPI (Python), JWT Auth, LLM (Groq API), Render deployment
+- **Storage:** JSON file as mock CRM
 
-## 🛠 Tech Stack
+---
 
-| Category | Technology |
-|----------|------------|
-| Backend | FastAPI (Python) |
-| Frontend | React + TailwindCSS |
-| LLM | Groq API (Llama3-70b) |
-| Authentication | JWT (JSON Web Tokens) |
-| Database | JSON file (mock CRM) |
-| Hosting | Vercel (frontend) 
+## ⚙️ Tech Stack
+| Category         | Technology                |
+|------------------|--------------------------|
+| Backend Lang     | Python                   |
+| Backend          | FastAPI                  |
+| Agent Logic      | Groq API (Llama3-70b)    |
+| Auth             | JWT (JSON Web Tokens)    |
+| Frontend         | React + TailwindCSS      |
+| Database         | JSON file (mock CRM)     |
+| Hosting          | Render (backend), Vercel (frontend) |
 
-## 🔐 Authentication
-
-### **JWT Authentication System**
-- **Secure API Access**: All webhook endpoints require JWT authentication
-- **Role-based Access**: Admin and user roles with different permissions
-- **Token Expiration**: 30-minute token validity
-- **Mock Users**: Pre-configured users for testing
-
-### **Default Users**
-| Username | Password | Role | Email |
-|----------|----------|------|-------|
-| `admin` | `admin123` | Admin | admin@dragify.com |
-| `user1` | `user123` | User | user1@dragify.com |
-
-### **Authentication Flow**
-1. **Login**: `POST /auth/login` to get JWT token
-2. **Use Token**: Include `Authorization: Bearer <token>` in requests
-3. **Token Verification**: `POST /auth/verify` to validate tokens
+---
 
 ## 🚀 Quick Start
-
 ### Prerequisites
 - Python 3.8+
 - Node.js 16+
 - Groq API key
 
-### Backend Setup
-
-1. **Navigate to backend directory:**
+### Backend Setup (Render)
+1. **Install dependencies:**
    ```bash
    cd backend
-   ```
-
-2. **Install dependencies:**
-   ```bash
    pip install -r requirements.txt
    ```
-
-3. **Set up environment variables:**
-   ```bash
-   # Copy the example file
-   cp env.example .env
-   
-   # Edit .env file with your actual API key and JWT secret
-   # Get your Groq API key from: https://console.groq.com/
-   nano .env  # or use your preferred editor
-   ```
-
-4. **Run the server:**
+2. **Environment variables:**
+   - Copy `env.example` to `.env` and fill in:
+     - `GROQ_API_KEY=your_groq_api_key`
+     - `JWT_SECRET_KEY=your_jwt_secret`
+3. **Run locally:**
    ```bash
    uvicorn main:app --reload --host 0.0.0.0 --port 8000
    ```
 
-### Frontend Setup
 
-1. **Navigate to frontend directory:**
+### Frontend Setup (Vercel)
+1. **Install dependencies:**
    ```bash
    cd frontend
-   ```
-
-2. **Install dependencies:**
-   ```bash
    npm install
    ```
-
-3. **Start development server:**
+2. **Run locally:**
    ```bash
    npm start
+   # Open http://localhost:3000
    ```
 
-4. **Open browser:**
-   ```
-   http://localhost:3000
-   ```
+
+---
+
+## 🔐 Authentication (JWT)
+- **JWT tokens** for all protected endpoints
+- **Admin/User roles**
+- **Token expiration:** 30 minutes
+- **Mock users** for demo/testing
+
+### Default Users
+| Username | Password   | Role  | Email              |
+|----------|------------|-------|--------------------|
+| admin    | admin123   | admin | admin@dragify.com  |
+| user     | user123    | user  | user@dragify.com   |
+
+### Auth Flow
+1. **Login:** `POST /auth/login` (get JWT)
+2. **Use Token:** `Authorization: Bearer <token>`
+3. **Verify:** `POST /auth/verify`
+
+---
 
 ## 📡 API Endpoints
+### Auth
+- `POST /auth/login` – Login, get JWT
+- `POST /auth/register` – Register new user
+- `GET /auth/me` – Get current user info
+- `POST /auth/verify` – Verify token
+- `PUT /auth/users/{user_id}/toggle` – Toggle user active status (admin)
+- `GET /auth/users` – List users (admin)
 
-### Authentication
-**POST** `/auth/login`
-Login to get JWT token.
+### Webhook
+- `POST /webhook/` – Trigger agent (extract lead from message)
+- `GET /webhook/logs` – Get event logs (admin/user)
+- `GET /webhook/crm-stats` – CRM stats
+- `POST /webhook/session` – Create session
+- `GET /webhook/users/{user_id}/stats` – User stats
+- `GET /webhook/users/stats` – All users stats (admin)
+- `GET /webhook/sessions/cleanup` – Cleanup expired sessions (admin)
 
-**Request Body:**
-```json
-{
-  "username": "admin",
-  "password": "admin123"
-}
-```
+### Config (Dynamic Business Logic)
+- `GET /config/` – Get config
+- `PUT /config/` – Update config
+- `PUT /config/llm` – Update LLM settings
+- `PUT /config/crm` – Update CRM settings
+- `PUT /config/webhook` – Update webhook settings
+- `POST /config/reset` – Reset config to defaults
+- `GET /config/history` – Config change history
+- `GET /config/validate` – Validate config
 
-**Response:**
-```json
-{
-  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
-  "token_type": "bearer",
-  "username": "admin",
-  "role": "admin"
-}
-```
+---
 
-**GET** `/auth/me`
-Get current user information (requires authentication).
+## 🤖 Agent Logic & Features
+- **LLM Extraction:** Uses Groq API (Llama3-70b) to extract name, email, company from unstructured messages
+- **Retry Logic:** CRM save has up to 3 retries on failure
+- **Multi-User/Session:** User/session IDs tracked, logs per user
+- **Dynamic Config:** Update LLM, CRM, webhook settings at runtime
+- **Admin/User Management:** Admin can view/toggle users, see stats
+- **Logging:** All events, actions, and errors are logged
 
-**POST** `/auth/verify`
-Verify if token is valid (requires authentication).
-
-### Webhook Trigger (Requires Authentication)
-**POST** `/webhook/`
-
-Triggers the AI agent to process a message and extract lead information.
-
-**Headers:**
-```
-Authorization: Bearer <your_jwt_token>
-```
-
-**Request Body:**
-```json
-{
-  "message": "Hi there, I'm Ahmed Bassyouni from Cloudilic. You can reach me at ahmed@cloudilic.com"
-}
-```
-
-**Response:**
-```json
-{
-  "extracted": {
-    "name": "Ahmed Bassyouni",
-    "email": "ahmed@cloudilic.com",
-    "company": "Cloudilic"
-  },
-  "save_status": "success",
-  "authenticated_user": "admin"
-}
-```
-
-### Get Logs (Requires Authentication)
-**GET** `/webhook/logs`
-
-Retrieves all processed webhook logs for dashboard display.
-
-**Headers:**
-```
-Authorization: Bearer <your_jwt_token>
-```
-
-**Response:**
-```json
-[
-  {
-    "id": "1",
-    "timestamp": "2024-01-15T10:30:00",
-    "message": "Original message...",
-    "extracted": {
-      "name": "omar",
-      "email": "omar@example.com",
-      "company": "Example Corp"
-    },
-    "save_status": "success"
-  }
-]
-```
-
-## 🤖 Agent Logic
-
-### Message Processing Flow
-1. **Authentication** → Validate JWT token
-2. **Webhook Trigger** → Receives unstructured message
-3. **LLM Processing** → Uses Groq API to extract structured data
-4. **Data Validation** → Ensures required fields are present
-5. **CRM Save** → Stores lead data to mock CRM
-6. **Logging** → Records the entire process for monitoring
-
-### LLM Prompt
-```
-Extract the full name, email, and company name from the following message:
-"[MESSAGE]"
-
-Return ONLY valid JSON in this exact format without any additional text:
-{ "name": "...", "email": "...", "company": "..." }
-```
+---
 
 ## 📊 Dashboard Features
+- **Trigger Event Log:** Type, timestamp, message, extracted data, CRM status
+- **Lead Cards:** Show extracted lead info
+- **Chart:** Leads per hour/day (last 24h)
+- **Stats Cards:** Total leads, success rate, today’s leads, etc.
+- **Admin Panel:** User management, analytics, settings
+- **Responsive UI:** Modern, clean, and mobile-friendly
 
-### Real-time Monitoring
-- **Trigger Event Log** - Shows all webhook calls with timestamps
-- **Lead Data Display** - Extracted information in card format
-- **CRM Status** - Success/failure indicators
-- **Analytics Chart** - Leads per hour/day visualization
-- **Statistics Cards** - Total leads, success rate, today's leads
-
-### Key Metrics
-- Total leads processed
-- Success rate percentage
-- Daily lead count
-- Real-time processing status
-
-## 🔧 Configuration
-
-### Environment Variables
-
-**Local Development:**
-```bash
-# Copy the example file
-cp backend/env.example backend/.env
-
-# Edit with your actual API key and JWT secret
-GROQ_API_KEY=your_actual_groq_api_key_here
-JWT_SECRET_KEY=your-super-secret-jwt-key-change-in-production
-```
-
-**Production Deployment:**
-- **Frontend**: Deploy to Vercel (backend runs locally)
-- **Backend**: Run locally with `uvicorn main:app --reload`
-
-**⚠️ Security Note:** Never commit `.env` files to version control!
-
-### Customization Options
-- **LLM Model**: Change in `services/agent.py` (currently Llama3-70b)
-- **CRM Storage**: Modify `database/mock_crm.py` for different storage
-- **Dashboard**: Customize components in `frontend/src/components/`
-- **Authentication**: Modify `services/auth.py` for custom user management
+---
 
 ## 🧪 Testing
+- **Backend:**
+  - Run: `pytest` in `backend/`
+  - Tests: `backend/tests/test_agent.py`, `test_crm.py`, `test_webhook.py`
+`
 
-### Backend Tests
-```bash
-cd backend
-python -m pytest tests/
+---
+
+## 📝 Submission Checklist
+- [x] Webhook trigger (via API or form)
+- [x] LLM extraction (Groq API)
+- [x] Save to CRM (with retry logic)
+- [x] Monitoring dashboard (React + TailwindCSS)
+- [x] Modular, clean, documented code
+- [x] JWT authentication (admin/user)
+- [x] Multi-user/session support
+- [x] Dynamic business logic/config update
+- [x] Unit/mock tests (backend & frontend)
+- [x] Public deployment (Render + Vercel)
+- [x] README with setup, logic, API, deployment
+- [ ] Loom video walkthrough (add link here)
+
+---
+
+## 📂 Project Structure (Key Files)
+```
+backend/
+  main.py                # FastAPI app
+  routes/                # API endpoints (webhook, auth, config)
+  services/              # Agent, config, user, auth logic
+  database/              # Mock CRM (crm.json)
+  models/                # Pydantic models
+  tests/                 # Unit/mock tests
+frontend/
+  src/
+    pages/               # Dashboard, login, admin pages
+    components/          # Dashboard widgets, UI
+    services/            # API/auth/webhook/user services
+    viewmodels/          # React hooks for state/data
+    styles/              # Tailwind/custom CSS
 ```
 
-### Authentication Tests
-```bash
-cd backend
-python -m pytest tests/test_auth.py -v
-```
+---
 
-### Frontend Tests
-```bash
-cd frontend
-npm test
-```
+## 🛠️ Environment Variables
+- **Backend:**
+  - `GROQ_API_KEY` – Your Groq LLM API key
+  - `JWT_SECRET_KEY` – Secret for JWT tokens
+- **Frontend:**
+  - `REACT_APP_API_URL` – Backend API URL (Render)
 
-## 🚀 Deployment
+---
 
-### Frontend (Vercel)
-1. Connect GitHub repository to Vercel
-2. Set build command: `npm run build`
-3. Set output directory: `build`
-4. Deploy automatically on push
+## 📺 Loom Video Walkthrough
+> _Add your Loom video link here before submission._
 
-### Backend (Local Development Only)
-The backend is designed to run locally for this assessment. To run the complete system:
+---
 
-1. **Start Backend:**
-   ```bash
-   cd backend
-   pip install -r requirements.txt
-   uvicorn main:app --reload --host 0.0.0.0 --port 8000
-   ```
+## 🌐 Deployment Links
+- **Frontend (Vercel):** [Add your Vercel link here]
+- **Backend (Render):** [Add your Render link here]
 
-2. **Start Frontend:**
-   ```bash
-   cd frontend
-   npm install
-   npm start
-   ```
+---
 
-3. **Access the Application:**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000
-   - API Docs: http://localhost:8000/docs
-
-## 📁 Project Structure
-
-```
-dragify-ai-agent/
-├── backend/
-│   ├── main.py              # FastAPI app entry point
-│   ├── requirements.txt     # Python dependencies
-│   ├── routes/
-│   │   ├── webhook.py       # Webhook endpoints (authenticated)
-│   │   ├── config.py        # Configuration endpoints
-│   │   └── auth.py          # Authentication endpoints
-│   ├── services/
-│   │   ├── agent.py         # LLM processing logic
-│   │   ├── auth.py          # JWT authentication service
-│   │   ├── user_manager.py  # User session management
-│   │   └── config_manager.py # Dynamic configuration
-│   ├── models/
-│   │   ├── lead.py          # Pydantic models
-│   │   └── auth.py          # Authentication models
-│   ├── database/
-│   │   └── mock_crm.py      # CRM storage logic
-│   └── tests/
-│       ├── test_agent.py    # Agent service tests
-│       ├── test_crm.py      # CRM storage tests
-│       ├── test_webhook.py  # Webhook endpoint tests
-│       └── test_auth.py     # Authentication tests
-```
-
-## 🔐 Security Features
-
-### **JWT Authentication**
-- **Token-based**: Secure stateless authentication
-- **Role-based Access**: Admin and user permissions
-- **Token Expiration**: Automatic token invalidation
-- **Password Hashing**: bcrypt password security
-
-### **Access Control**
-- **Admin Role**: Full access to all endpoints and user data
-- **User Role**: Access only to own data and basic endpoints
-- **Session Management**: Automatic session cleanup
-- **Rate Limiting**: Configurable request limits
-
-### **Production Considerations**
-- **Environment Variables**: Secure configuration management
-- **HTTPS**: Required for production deployment
-- **Token Rotation**: Implement for enhanced security
-- **Database**: Replace mock storage with secure database
+## 👨‍💻 Author 
+- **Author:** [Omar Bakr]
