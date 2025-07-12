@@ -45,7 +45,7 @@ const LoginPage = () => {
         <div className="login-split-form-container">
           {/* Logo */}
           <div className="login-split-logo">
-            <img src="/dragify-logo.png" alt="Dragify Logo" className="login-split-logo-img" />
+            <img src="https://raw.githubusercontent.com/Omarbakr13/dragify-ai-agent/refs/heads/main/frontend/public/d.png" alt="Dragify Logo" className="login-split-logo-img" />
           </div>
           <h2 className="login-split-title">Log in to your account</h2>
           <p className="login-split-welcome">Welcome back! Please enter your details below.</p>
