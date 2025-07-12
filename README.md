@@ -148,21 +148,6 @@ Frontend (React + TailwindCSS)  <->  Backend (FastAPI + JWT + LLM)  <->  Mock CR
 
 ---
 
-## 📝 Submission Checklist
-- [x] Webhook trigger (via API or form)
-- [x] LLM extraction (Groq API)
-- [x] Save to CRM (with retry logic)
-- [x] Monitoring dashboard (React + TailwindCSS)
-- [x] Modular, clean, documented code
-- [x] JWT authentication (admin/user)
-- [x] Multi-user/session support
-- [x] Dynamic business logic/config update
-- [x] Unit/mock tests (backend & frontend)
-- [x] Public deployment (Render + Vercel)
-- [x] README with setup, logic, API, deployment
-- [ ] Loom video walkthrough (add link here)
-
----
 
 ## 📂 Project Structure (Key Files)
 ```
@@ -193,8 +178,12 @@ frontend/
 
 ---
 
-## 📺 Loom Video Walkthrough
-> _Add your Loom video link here before submission._
+## 📺 Demo Video Walkthrough
+🎥 **Demo Video:** [dragify assessment.mp4](./backend/dragify%20assessment.mp4)
+
+
+
+> **Note:** The demo video is included in the `backend/` directory as `dragify assessment.mp4`
 
 ---
 
