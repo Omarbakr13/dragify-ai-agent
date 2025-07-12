@@ -18,7 +18,7 @@ const Header = ({ user, onLogout, showUserInfo = true, showNavigation = true, cl
         <div className="header__content">
           {/* Logo */}
           <Link to="/" className="header__logo-link">
-            <img src="dragify-logo.png" alt="Dragify Logo" className="header__logo-img" />
+            <img src="/d.png" alt="Dragify Logo" className="header__logo-img" />
           </Link>
 
           {/* Sign Out Button */}
