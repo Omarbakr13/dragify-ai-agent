@@ -11,7 +11,7 @@ import './styles/pages/NotFoundPage.css';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
-  const { isAuthenticated, user, loading, isAdmin } = useAuth();
+  const { isAuthenticated, loading, isAdmin } = useAuth();
 
   if (loading) {
     return (
@@ -34,7 +34,7 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
 
 // Public Route Component (redirects authenticated users)
 const PublicRoute = ({ children }) => {
-  const { isAuthenticated, user, loading, isAdmin } = useAuth();
+  const { isAuthenticated, loading, isAdmin } = useAuth();
 
   if (loading) {
     return (
