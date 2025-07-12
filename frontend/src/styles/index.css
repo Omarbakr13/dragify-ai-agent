@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Import component styles */
+@import './components/LoadingSpinner.css';
+@import './components/ErrorDisplay.css';
+@import './components/StatCard.css';
+@import './components/Header.css';
+@import './components/LeadCard.css';
+@import './components/TriggerLog.css';
+@import './components/Chart.css';
+
+/* Import page styles */
+@import './pages/LoginPage.css';
+@import './pages/DashboardPage.css'; 

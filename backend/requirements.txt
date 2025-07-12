@@ -4,4 +4,7 @@ httpx
 pydantic
 python-dotenv
 pytest
-pytest-asyncio 
+pytest-asyncio
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart 

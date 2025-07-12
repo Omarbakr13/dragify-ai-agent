@@ -48,8 +48,16 @@ async def extract_lead_info(message: str) -> Dict[str, str]:
 Extract the full name, email, and company name from the following message:
 \"\"\"{message}\"\"\"
 
+If the message contains contact information (name, email, company), extract it.
+If the message does not contain contact information, return empty strings for missing fields.
+
 Return ONLY valid JSON in this exact format without any additional text:
 {{ "name": "...", "email": "...", "company": "..." }}
+
+Examples:
+- "Hi, I am John Doe from TechCorp. My email is john@techcorp.com" → {{ "name": "John Doe", "email": "john@techcorp.com", "company": "TechCorp" }}
+- "Hello, contact me at sarah@startup.io" → {{ "name": "", "email": "sarah@startup.io", "company": "" }}
+- "Hi there" → {{ "name": "", "email": "", "company": "" }}
 """
 
     headers = {
@@ -85,6 +93,10 @@ Return ONLY valid JSON in this exact format without any additional text:
                 raise ValueError("Invalid API response")
             
             content = result["choices"][0]["message"]["content"]
+            
+            # Debug logging to see what the LLM actually returns
+            logger.info(f"LLM raw content: {content}")
+            print(f"LLM raw content: {content}")
             
             # Extract JSON from response using regex
             json_match = re.search(r'\{.*\}', content, re.DOTALL)

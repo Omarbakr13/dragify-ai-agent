@@ -1,0 +1,26 @@
+{
+  "llm_settings": {
+    "model": "llama3-70b-8192",
+    "temperature": 0.2,
+    "max_tokens": 200
+  },
+  "crm_settings": {
+    "retry_attempts": 3,
+    "retry_delay": 1,
+    "failure_rate": 0.1
+  },
+  "webhook_settings": {
+    "rate_limit": 100,
+    "message_max_length": 10000,
+    "enable_retry": true
+  },
+  "extraction_settings": {
+    "required_fields": ["name", "email", "company"],
+    "fallback_values": {
+      "name": "Unknown",
+      "email": "unknown@example.com",
+      "company": "Unknown"
+    }
+  },
+  "last_updated": "2024-07-12T00:00:00"
+} 

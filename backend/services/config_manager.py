@@ -11,7 +11,7 @@ class ConfigManager:
     """Manages dynamic configuration for business logic"""
     
     def __init__(self):
-        self.config_file = Path("backend/config/business_config.json")
+        self.config_file = Path("config/business_config.json")
         self.config_file.parent.mkdir(exist_ok=True)
         self.default_config = {
             "llm_settings": {

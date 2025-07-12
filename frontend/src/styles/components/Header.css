@@ -1,0 +1,156 @@
+.header {
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.header__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 0;
+}
+
+.header__title-section {
+  flex: 1;
+}
+
+.header__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.header__subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Logo styles */
+.header__logo-link {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+.header__logo-img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+/* Navigation styles */
+.header__navigation {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex: 1;
+  justify-content: center;
+}
+.header__nav-link {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #23272F;
+  text-decoration: none;
+  padding: 0.5rem 1.1rem;
+  border-radius: 0.5rem;
+  transition: color 0.2s, background 0.2s;
+}
+.header__nav-link:hover {
+  color: #2563eb;
+  background: #f3f6fd;
+}
+.header__nav-link--active {
+  color: #2563eb;
+  background: #e0e7ff;
+}
+
+/* Dashboard Button styles */
+.header__dashboard-btn {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, #6366f1 0%, #a21caf 100%);
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.6rem 2.2rem;
+  margin-left: 2rem;
+  box-shadow: 0 2px 8px 0 rgba(99, 102, 241, 0.10);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.header__dashboard-btn:hover {
+  background: linear-gradient(90deg, #4f46e5 0%, #be185d 100%);
+  box-shadow: 0 4px 16px 0 rgba(99, 102, 241, 0.18);
+}
+
+.header__user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header__user-info {
+  text-align: right;
+}
+
+.header__user-email {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.header__user-role {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.header__logout-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  background-color: #f3f4f6;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.header__logout-button:hover {
+  background-color: #e5e7eb;
+}
+
+.header__logout-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.header__signout-btn {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #23272F;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.5rem 1.5rem;
+  margin-left: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.header__signout-btn:hover {
+  background: #e5e7eb;
+  color: #111827;
+} 

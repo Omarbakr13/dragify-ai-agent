@@ -1,6 +1,6 @@
 import pytest
 import json
-from unittest.mock import patch, AsyncMock
+from unittest.mock import patch, AsyncMock, Mock
 from services.agent import extract_lead_info
 
 class TestAgentService:
@@ -25,8 +25,11 @@ class TestAgentService:
         }
 
         with patch('services.agent.httpx.AsyncClient') as mock_client:
-            mock_client.return_value.__aenter__.return_value.post = AsyncMock()
-            mock_client.return_value.__aenter__.return_value.post.return_value.json.return_value = mock_response
+            mock_response_obj = Mock()
+            mock_response_obj.json.return_value = mock_response
+            mock_response_obj.raise_for_status.return_value = None
+            
+            mock_client.return_value.__aenter__.return_value.post = AsyncMock(return_value=mock_response_obj)
 
             result = await extract_lead_info(test_message)
 
@@ -54,8 +57,11 @@ class TestAgentService:
         }
 
         with patch('services.agent.httpx.AsyncClient') as mock_client:
-            mock_client.return_value.__aenter__.return_value.post = AsyncMock()
-            mock_client.return_value.__aenter__.return_value.post.return_value.json.return_value = mock_response
+            mock_response_obj = Mock()
+            mock_response_obj.json.return_value = mock_response
+            mock_response_obj.raise_for_status.return_value = None
+            
+            mock_client.return_value.__aenter__.return_value.post = AsyncMock(return_value=mock_response_obj)
 
             result = await extract_lead_info(test_message)
 
@@ -75,8 +81,11 @@ class TestAgentService:
         }
 
         with patch('services.agent.httpx.AsyncClient') as mock_client:
-            mock_client.return_value.__aenter__.return_value.post = AsyncMock()
-            mock_client.return_value.__aenter__.return_value.post.return_value.json.return_value = mock_response
+            mock_response_obj = Mock()
+            mock_response_obj.json.return_value = mock_response
+            mock_response_obj.raise_for_status.return_value = None
+            
+            mock_client.return_value.__aenter__.return_value.post = AsyncMock(return_value=mock_response_obj)
 
             result = await extract_lead_info(test_message)
 
@@ -91,8 +100,7 @@ class TestAgentService:
         test_message = "Test message"
 
         with patch('services.agent.httpx.AsyncClient') as mock_client:
-            mock_client.return_value.__aenter__.return_value.post = AsyncMock()
-            mock_client.return_value.__aenter__.return_value.post.side_effect = Exception("API Error")
+            mock_client.return_value.__aenter__.return_value.post = AsyncMock(side_effect=Exception("API Error"))
 
             result = await extract_lead_info(test_message)
 
@@ -119,8 +127,11 @@ class TestAgentService:
         }
 
         with patch('services.agent.httpx.AsyncClient') as mock_client:
-            mock_client.return_value.__aenter__.return_value.post = AsyncMock()
-            mock_client.return_value.__aenter__.return_value.post.return_value.json.return_value = mock_response
+            mock_response_obj = Mock()
+            mock_response_obj.json.return_value = mock_response
+            mock_response_obj.raise_for_status.return_value = None
+            
+            mock_client.return_value.__aenter__.return_value.post = AsyncMock(return_value=mock_response_obj)
 
             result = await extract_lead_info(test_message)
 
@@ -132,10 +143,10 @@ class TestAgentService:
     async def test_extract_lead_info_complex_message(self):
         """Test extraction from complex, multi-line messages"""
         test_message = """
-        Hi there, just following up on our previous conversation. 
-        I'm Ahmed Bassyouni, co-founder of Cloudilic. 
-        We're exploring AI solutions to automate our lead capture and onboarding process. 
-        You can reach me at ahmed@cloudilic.com. 
+        Hi there, just following up on our previous conversation.
+        I'm Ahmed Bassyouni, co-founder of Cloudilic.
+        We're exploring AI solutions to automate our lead capture and onboarding process.
+        You can reach me at ahmed@cloudilic.com.
         Looking forward to connecting further.
         """
         
@@ -154,8 +165,11 @@ class TestAgentService:
         }
 
         with patch('services.agent.httpx.AsyncClient') as mock_client:
-            mock_client.return_value.__aenter__.return_value.post = AsyncMock()
-            mock_client.return_value.__aenter__.return_value.post.return_value.json.return_value = mock_response
+            mock_response_obj = Mock()
+            mock_response_obj.json.return_value = mock_response
+            mock_response_obj.raise_for_status.return_value = None
+            
+            mock_client.return_value.__aenter__.return_value.post = AsyncMock(return_value=mock_response_obj)
 
             result = await extract_lead_info(test_message)
 

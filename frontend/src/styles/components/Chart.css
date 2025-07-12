@@ -1,0 +1,53 @@
+.chart {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+}
+
+.chart__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.chart__title-section {
+  flex: 1;
+}
+
+.chart__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.chart__subtitle {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.chart__container {
+  height: 12rem;
+}
+
+.chart__empty-state {
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.chart__empty-icon {
+  width: 2rem;
+  height: 2rem;
+  color: #d1d5db;
+  margin: 0 auto 0.5rem;
+}
+
+.chart__empty-text {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+} 

@@ -1,0 +1,101 @@
+.trigger-log {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.trigger-log__header {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.trigger-log__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.trigger-log__table-container {
+  overflow-x: auto;
+}
+
+.trigger-log__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trigger-log__thead {
+  background-color: #f9fafb;
+}
+
+.trigger-log__th {
+  padding: 0.75rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.trigger-log__tbody {
+  background-color: white;
+}
+
+.trigger-log__tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s;
+}
+
+.trigger-log__tr:hover {
+  background-color: #f9fafb;
+}
+
+.trigger-log__td {
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.trigger-log__td--time {
+  white-space: nowrap;
+}
+
+.trigger-log__td--message {
+  max-width: 12rem;
+}
+
+.trigger-log__message {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trigger-log__td--status {
+  white-space: nowrap;
+}
+
+.trigger-log__status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.trigger-log__status--success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.trigger-log__status--failure {
+  background-color: #fee2e2;
+  color: #991b1b;
+} 

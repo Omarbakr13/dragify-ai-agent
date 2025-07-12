@@ -1,0 +1,113 @@
+.not-found-page {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-found-page__container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.not-found-page__content {
+  text-align: center;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  padding: 3rem 2rem;
+}
+
+.not-found-page__icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.5rem;
+  color: #6b7280;
+}
+
+.not-found-page__title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+  line-height: 1;
+}
+
+.not-found-page__subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 1rem 0;
+}
+
+.not-found-page__description {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+}
+
+.not-found-page__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.not-found-page__button {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-found-page__button--primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.not-found-page__button--primary:hover {
+  background-color: #1d4ed8;
+}
+
+.not-found-page__button--secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.not-found-page__button--secondary:hover {
+  background-color: #e5e7eb;
+}
+
+.not-found-page__button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+@media (max-width: 640px) {
+  .not-found-page__container {
+    padding: 1rem;
+  }
+  
+  .not-found-page__content {
+    padding: 2rem 1.5rem;
+  }
+  
+  .not-found-page__title {
+    font-size: 3rem;
+  }
+  
+  .not-found-page__actions {
+    flex-direction: column;
+  }
+} 

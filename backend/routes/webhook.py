@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Request, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from models.lead import WebhookMessage, LeadResponse, WebhookLog
 from services.agent import extract_lead_info
 from services.user_manager import user_manager
+from services.auth import get_current_user
 from database.mock_crm import save_to_crm, get_crm_stats
 import json
 from datetime import datetime
@@ -10,14 +12,16 @@ from pathlib import Path
 from typing import Optional
 
 router = APIRouter()
+security = HTTPBearer()
 
 # Store webhook logs in memory (in production, use a proper database)
 webhook_logs = []
 
 @router.post("/")
 async def webhook_endpoint(payload: WebhookMessage):
-    # Handle user/session management
-    user_id = payload.user_id or f"user_{len(webhook_logs) + 1}"
+    """Webhook endpoint for lead extraction - no authentication required"""
+    # Use a default user_id if not provided
+    user_id = payload.user_id or "default_user"
     session_id = payload.session_id
     
     # Create session if not provided
@@ -31,7 +35,17 @@ async def webhook_endpoint(payload: WebhookMessage):
     message = payload.message
     lead_data = await extract_lead_info(message)
     
-    save_status = save_to_crm(lead_data)
+    # Check if any contact information was extracted
+    has_contact_info = any([
+        lead_data.get("name", "").strip(),
+        lead_data.get("email", "").strip(),
+        lead_data.get("company", "").strip()
+    ])
+    
+    if has_contact_info:
+        save_status = save_to_crm(lead_data)
+    else:
+        save_status = "no_contact_info"
     
     # Create log entry with user/session info
     log_entry = WebhookLog(
@@ -49,33 +63,60 @@ async def webhook_endpoint(payload: WebhookMessage):
     )
     
     # Store in both global logs and user-specific logs
-    webhook_logs.append(log_entry.dict())
+    webhook_logs.append(log_entry.model_dump())
     user_manager.add_user_log(user_id, log_entry)
+    
+    # Prepare response message
+    if save_status == "no_contact_info":
+        response_message = "No contact information found in the message. Please include a name, email, or company."
+    elif save_status == "success":
+        response_message = "Lead information extracted and saved successfully!"
+    else:
+        response_message = "Failed to save lead information."
     
     return {
         "extracted": lead_data,
         "save_status": save_status,
+        "message": response_message,
         "retry_attempts": "Multiple attempts made" if save_status == "success" else "Failed after retries",
         "user_id": user_id,
         "session_id": session_id
     }
 
 @router.get("/logs")
-async def get_logs(user_id: Optional[str] = None, limit: int = 50):
-    """Get webhook logs, optionally filtered by user"""
-    if user_id:
-        return user_manager.get_user_logs(user_id, limit)
-    return webhook_logs[-limit:]
+async def get_logs(
+    user_id: Optional[str] = None, 
+    limit: int = 50,
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
+    """Get webhook logs - requires authentication"""
+    current_user = get_current_user(credentials.credentials)
+    
+    # Admin can see all logs, regular users only see their own
+    if current_user["role"] == "admin":
+        if user_id:
+            return user_manager.get_user_logs(user_id, limit)
+        return webhook_logs[-limit:]
+    else:
+        # Regular users can only see their own logs
+        # Use email as user_id since that's what frontend sends
+        user_identifier = current_user["email"]
+        return user_manager.get_user_logs(user_identifier, limit)
 
 @router.get("/crm-stats")
-async def get_crm_statistics():
-    """Get CRM statistics including total leads and file info"""
+async def get_crm_statistics(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Get CRM statistics - requires authentication"""
+    current_user = get_current_user(credentials.credentials)
     return get_crm_stats()
 
 @router.post("/session")
-async def create_session(user_id: Optional[str] = None):
-    """Create a new session for a user"""
-    session_id = user_manager.create_session(user_id)
+async def create_session(
+    user_id: Optional[str] = None,
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
+    """Create a new session for a user - requires authentication"""
+    current_user = get_current_user(credentials.credentials)
+    session_id = user_manager.create_session(user_id or current_user["username"])
     session = user_manager.get_session(session_id)
     if session:
         return {
@@ -87,18 +128,37 @@ async def create_session(user_id: Optional[str] = None):
         raise HTTPException(status_code=500, detail="Failed to create session")
 
 @router.get("/users/{user_id}/stats")
-async def get_user_statistics(user_id: str):
-    """Get statistics for a specific user"""
+async def get_user_statistics(
+    user_id: str,
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
+    """Get statistics for a specific user - requires authentication"""
+    current_user = get_current_user(credentials.credentials)
+    
+    # Admin can see any user's stats, regular users only their own
+    if current_user["role"] != "admin" and current_user["username"] != user_id:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    
     return user_manager.get_user_stats(user_id)
 
 @router.get("/users/stats")
-async def get_all_users_statistics():
-    """Get statistics for all users"""
+async def get_all_users_statistics(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Get statistics for all users (admin only) - requires authentication"""
+    current_user = get_current_user(credentials.credentials)
+    
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
     return user_manager.get_all_users_stats()
 
 @router.get("/sessions/cleanup")
-async def cleanup_sessions():
-    """Clean up expired sessions"""
+async def cleanup_sessions(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    """Clean up expired sessions (admin only) - requires authentication"""
+    current_user = get_current_user(credentials.credentials)
+    
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
     removed_count = user_manager.cleanup_expired_sessions()
     return {
         "removed_sessions": removed_count,

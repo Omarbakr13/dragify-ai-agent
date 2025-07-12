@@ -1,0 +1,109 @@
+.stat-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  border-left-width: 4px;
+}
+
+.stat-card__container {
+  display: flex;
+  align-items: center;
+}
+
+.stat-card__icon-container {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin-right: 0.75rem;
+}
+
+.stat-card__icon {
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.stat-card__content {
+  flex: 1;
+}
+
+.stat-card__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.stat-card__value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Color variants */
+.stat-card--blue {
+  border-left-color: #3b82f6;
+}
+
+.stat-card__icon-container--blue {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+.stat-card__value--blue {
+  color: #2563eb;
+}
+
+.stat-card--green {
+  border-left-color: #10b981;
+}
+
+.stat-card__icon-container--green {
+  background-color: #d1fae5;
+  color: #059669;
+}
+
+.stat-card__value--green {
+  color: #059669;
+}
+
+.stat-card--purple {
+  border-left-color: #8b5cf6;
+}
+
+.stat-card__icon-container--purple {
+  background-color: #ede9fe;
+  color: #7c3aed;
+}
+
+.stat-card__value--purple {
+  color: #7c3aed;
+}
+
+.stat-card--yellow {
+  border-left-color: #f59e0b;
+}
+
+.stat-card__icon-container--yellow {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.stat-card__value--yellow {
+  color: #d97706;
+}
+
+.stat-card--red {
+  border-left-color: #ef4444;
+}
+
+.stat-card__icon-container--red {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.stat-card__value--red {
+  color: #dc2626;
+} 
